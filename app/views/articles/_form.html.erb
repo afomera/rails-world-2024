@@ -1,0 +1,59 @@
+<%= custom_form_with(model: article, class: "contents") do |form| %>
+  <% if article.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(article.errors.count, "error") %> prohibited this article from being saved:</h2>
+
+      <ul>
+        <% article.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :title %>
+    <%= form.text_field :title, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <% if form.object.video.blank? %>
+    <div id="wistia_uploader" style="height:360px;width:640px;"></div>
+    <%= form.hidden_field(:video, value: nil) %>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :header_image %>
+    <%= form.single_image_uploader(:header_image) %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :image %>
+    <%= form.single_image_uploader(:image) %>
+  </div>
+  <div class="my-5">
+    <%= form.label :body %>
+    <%= form.rich_text_area :body, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>
+
+<script src="//fast.wistia.com/assets/external/api.js" async></script>
+<link rel="stylesheet" href="//fast.wistia.com/assets/external/uploader.css" />
+<script>
+window._wapiq = window._wapiq || [];
+_wapiq.push(function(W) {
+  window.wistiaUploader = new W.Uploader({
+    accessToken: "<%= Rails.application.credentials.dig(:wistia, :upload_token) %>",
+    dropIn: "wistia_uploader",
+    projectId: "<%= Rails.application.credentials.dig(:wistia, :project_id) %>",
+  });
+
+  window.wistiaUploader.bind('uploadsuccess', function(file, media) {
+    console.log('The uploadsuccess event fires when the upload completes successfully, and provides the Media object:\n',  media);
+    document.querySelector("input[name='article[video]']").value = `wistia:${media.id}:${media.name}`;
+  });
+});
+</script>

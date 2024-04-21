@@ -1,0 +1,37 @@
+<div>
+  <div class="max-w-7xl mx-auto">
+    <h1 class="font-bold text-4xl">Media</h1>
+
+    <div class="my-4">
+      <%= form_with(method: :get) do |form| %>
+        <%= form.label :search, class: "mb-2 text-sm font-medium text-neutral-900 sr-only" %>
+        <div class="relative">
+            <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-neutral-500">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+              </svg>
+            </div>
+            <%= form.text_field :search, value: @search, placeholder: "Search file names", autofocus: true, class: "block p-4 pl-10 w-full text-sm text-neutral-900 bg-neutral-50 rounded-lg border border-neutral-300 focus:ring-brand focus:border-brand" %>
+            <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-neutral-500 hover:bg-neutral-700 focus:ring-4 focus:outline-none focus:ring-neutral-500 font-medium
+              rounded-lg text-sm px-4 py-2">Search</button>
+        </div>
+      <% end %>
+    </div>
+
+    <table class="min-w-full divide-y divide-gray-300 border border-gray-300">
+      <thead>
+        <tr>
+          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Filename</th>
+          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Size</th>
+          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Uploaded</th>
+          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <% @blobs.each do |blob| %>
+          <%= render(MediaComponent.new(blob:)) %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

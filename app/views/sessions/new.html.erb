@@ -1,0 +1,24 @@
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-neutral-900">Sign in to your account</h2>
+  </div>
+
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <%= form_with(url: sessions_path) do |form| %>
+      <div class="mb-4">
+        <%= form.label :email %>
+        <%= form.email_field :email, autofocus: true, placeholder: "you@yourco.com", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+      </div>
+      <div class="mb-4">
+        <%= form.label :password %>
+        <%= form.password_field :password, placeholder: "••••••••", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+      </div>
+      <%= form.submit "Log in", class: "w-full rounded-lg py-2 px-3 bg-neutral-600 text-white hover:bg-neutral-700 inline-block font-medium cursor-pointer" %>
+    <% end %>
+  </div>
+
+  <p class="mt-10 text-center text-sm text-neutral-500">
+    Not a member?
+    <a href="/registrations/new" class="font-semibold leading-6 text-neutral-600 hover:text-neutral-500">Create an account</a>
+  </p>
+</div>

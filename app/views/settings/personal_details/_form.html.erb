@@ -1,0 +1,22 @@
+<div class="my-2">
+  <%= form_with(model: Current.user, url: settings_personal_details_path) do |form| %>
+    <div class="mb-3">
+      <%= form.label :name %>
+      <%= form.text_field :name, required: true, placeholder: "Alex Smith", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :email %>
+      <%= form.email_field :email, required: true, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :timezone %>
+      <%= form.time_zone_select :timezone, ActiveSupport::TimeZone.us_zones, {}, { class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" } %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.submit "Update details", class: "rounded-lg py-2 px-3 bg-neutral-600 text-white hover:bg-neutral-700 inline-block font-medium cursor-pointer" %>
+    </div>
+  <% end %>
+</div>

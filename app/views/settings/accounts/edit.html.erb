@@ -1,0 +1,15 @@
+<div class="max-w-7xl mx-auto">
+  <h2 class="text-2xl mb-2">Personal details</h2>
+  <div class="w-1/2">
+    <%= turbo_frame_tag "edit-personal-details" do %>
+      <%= render("settings/personal_details/form") %>
+    <% end %>
+  </div>
+
+  <h2 class="text-2xl mt-4 mb-2">Set a new password</h2>
+  <div class="w-1/2">
+    <%= turbo_frame_tag "edit-password" do %>
+      <%= render("settings/passwords/form") %>
+    <% end %>
+  </div>
+</div>

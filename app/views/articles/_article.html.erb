@@ -1,0 +1,35 @@
+<div id="<%= dom_id article %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Title:</strong>
+    <%= article.title %>
+  </p>
+
+  <% if article.video.attached? %>
+    <div class="my-5">
+      <strong class="block font-medium mb-1">Video:</strong>
+      <div class="w-[640px]"><%= render_video(article.video) %></div>
+    </div>
+  <% end %>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Header image:</strong>
+    <%= image_tag article.header_image if article.header_image.attached? %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Image:</strong>
+    <%= image_tag article.image if article.image.attached? %>
+  </p>
+
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Body:</strong>
+    <%= article.body %>
+  </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Show this article", article, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to "Edit this article", edit_article_path(article), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>

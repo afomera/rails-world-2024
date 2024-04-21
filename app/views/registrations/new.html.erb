@@ -1,0 +1,41 @@
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-neutral-900">Create an account</h2>
+  </div>
+
+  <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+    <% if @user.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(@user.errors.count, "error") %> prohibited this event from being saved:</h2>
+
+        <ul>
+          <% @user.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form_with(model: @user, url: registrations_path) do |form| %>
+      <div class="mb-4">
+        <%= form.label :name, "Full name" %>
+        <%= form.text_field :name, autofocus: true, required: true, placeholder: "e.g. Alex Smith", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+      </div>
+
+      <div class="mb-4">
+        <%= form.label :email %>
+        <%= form.email_field :email, required: true, placeholder: "alex.smith@yourco.com", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+      </div>
+      <div class="mb-4">
+        <%= form.label :password %>
+        <%= form.password_field :password, required: true, minlength: 8, maxlength: 64, placeholder: "••••••••", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+      </div>
+
+      <div class="my-3">
+        <%= form.submit "Let's go", class: "w-full rounded-lg py-2 px-3 bg-neutral-600 text-white hover:bg-neutral-700 inline-block font-medium cursor-pointer" %>
+      </div>
+    <% end %>
+
+    <div class="text-neutral-600 text-center">Have an account? <%= link_to "Login", new_session_path, class: "hover:text-neutral-800 underline" %></div>
+  </div>
+</div>

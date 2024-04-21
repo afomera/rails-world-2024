@@ -1,0 +1,23 @@
+<%# locals: (title:) %>
+
+<header class="bg-neutral-600 shadow">
+  <div class="mx-auto max-w-7xl py-4">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center space-x-4 align-middle">
+        <%= link_to root_path, class: "flex items-center space-x-2" do %>
+          <div class="text-xl sm:text-3xl font-bold leading-tight tracking-tight text-white"><%= title %></div>
+        <% end %>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <% if user_signed_in? %>
+          <%= link_to "Media", media_library_path, class: "rounded-md bg-white px-3 py-2 text-gray-900 hover:bg-gray-50" %>
+          <%= link_to "Settings", edit_settings_account_path, class: "rounded-md bg-white px-3 py-2 text-gray-900 hover:bg-gray-50" %>
+          <%= link_to "Log out", logout_path, data: {turbo_prefetch: false}, class: "rounded-md bg-white px-3 py-2 text-gray-900 hover:bg-gray-50" %>
+        <% else %>
+          <%= link_to "Sign up", new_registration_path, class: "rounded-md bg-white px-3 py-2 text-gray-900 hover:bg-gray-50" %>
+          <%= link_to "Log in", new_session_path, class: "rounded-md bg-white px-3 py-2 text-gray-900 hover:bg-gray-50" %>
+        <% end %>
+      </div>
+  </div>
+</header>
