@@ -6,4 +6,7 @@ const application = Application.start()
 application.debug = false
 window.Stimulus   = application
 
+import { Modal } from "tailwindcss-stimulus-components"
+application.register('modal', Modal);
+
 export { application }

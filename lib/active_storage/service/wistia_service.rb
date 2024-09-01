@@ -5,7 +5,7 @@ class ActiveStorage::Service::WistiaService < ActiveStorage::Service
 
   def delete(key)
     # TODO: Move this to a background job
-    WistiaClient.new(token: Rails.application.credentials.dig(:wistia, :api_token)).delete_media(key)
+    WistiaClient.delete_media(key)
   end
 
   def download(key)

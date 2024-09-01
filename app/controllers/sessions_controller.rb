@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   skip_before_action :authenticate_user!
-  before_action :redirect_if_authenticated, only: [:new]
+  before_action :redirect_if_authenticated, only: [ :new ]
 
   def new
   end
@@ -23,6 +23,6 @@ class SessionsController < ApplicationController
   end
 
   def authentication_params
-    {email: params[:email].downcase, password: params[:password]}
+    { email: params[:email].downcase, password: params[:password] }
   end
 end

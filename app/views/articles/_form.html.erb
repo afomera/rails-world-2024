@@ -21,6 +21,24 @@
     <%= form.hidden_field(:video, value: nil) %>
   <% end %>
 
+  <script src="//fast.wistia.com/assets/external/api.js" async></script>
+  <link rel="stylesheet" href="//fast.wistia.com/assets/external/uploader.css" />
+  <script>
+  window._wapiq = window._wapiq || [];
+  _wapiq.push(function(W) {
+    // TODO, Don't use the upload token here, and instead use a short-lived expiring token from the server
+    window.wistiaUploader = new W.Uploader({
+      accessToken: "<%= Rails.application.credentials.dig(:wistia, :upload_token) %>",
+      dropIn: "wistia_uploader",
+      projectId: "<%= Rails.application.credentials.dig(:wistia, :project_id) %>",
+    });
+
+    window.wistiaUploader.bind('uploadsuccess', function(file, media) {
+      document.querySelector("input[name='article[video]']").value = `wistia:${media.id}:${media.name}`;
+    });
+  });
+  </script>
+
   <div class="my-5">
     <%= form.label :header_image %>
     <%= form.single_image_uploader(:header_image) %>
@@ -39,21 +57,3 @@
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   </div>
 <% end %>
-
-<script src="//fast.wistia.com/assets/external/api.js" async></script>
-<link rel="stylesheet" href="//fast.wistia.com/assets/external/uploader.css" />
-<script>
-window._wapiq = window._wapiq || [];
-_wapiq.push(function(W) {
-  window.wistiaUploader = new W.Uploader({
-    accessToken: "<%= Rails.application.credentials.dig(:wistia, :upload_token) %>",
-    dropIn: "wistia_uploader",
-    projectId: "<%= Rails.application.credentials.dig(:wistia, :project_id) %>",
-  });
-
-  window.wistiaUploader.bind('uploadsuccess', function(file, media) {
-    console.log('The uploadsuccess event fires when the upload completes successfully, and provides the Media object:\n',  media);
-    document.querySelector("input[name='article[video]']").value = `wistia:${media.id}:${media.name}`;
-  });
-});
-</script>

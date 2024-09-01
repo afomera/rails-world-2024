@@ -15,13 +15,13 @@ Rails.application.routes.draw do
   get "manifest", to: "rails/pwa#manifest", as: :pwa_manifest
 
   # Authentication
-  resources :registrations, only: [:new, :create]
-  resources :sessions, only: [:new, :create]
+  resources :registrations, only: [ :new, :create ]
+  resources :sessions, only: [ :new, :create ]
   get "logout", to: "sessions#destroy", as: :logout
 
   namespace :settings do
-    resource :account, only: [:edit]
-    resource :password, only: [:edit, :update]
-    resource :personal_details, only: [:edit, :update]
+    resource :account, only: [ :edit ]
+    resource :password, only: [ :edit, :update ]
+    resource :personal_details, only: [ :edit, :update ]
   end
 end

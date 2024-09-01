@@ -1,6 +1,6 @@
 class RegistrationsController < ApplicationController
   skip_before_action :authenticate_user!
-  before_action :redirect_if_authenticated, only: [:new]
+  before_action :redirect_if_authenticated, only: [ :new ]
 
   def new
     @user = User.new

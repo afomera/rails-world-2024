@@ -1,4 +1,4 @@
-<tr id="<%= dom_id(blob) %>">
+<tr id="<%= dom_id(blob) %>"  data-controller="modal">
   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
     <div class="flex items-center">
       <% if photo_url %>
@@ -9,7 +9,23 @@
         </div>
       <% end %>
 
-      <div class="ml-2"><%= blob.filename %></div>
+
+    <dialog data-modal-target="dialog" class="p-8 rounded-lg backdrop:bg-black/80">
+      <div class="text-xl font-medium">
+        <%= blob.filename %>
+      </div>
+
+      <div class="my-4 max-w-[800px]">
+        <%= image_tag blob if blob.image? %>
+        <% if blob.service_name == "wistia" %>
+          <div class="min-w-[480px]"><%= helpers.render_video(blob) %></div>
+        <% end %>
+      </div>
+
+      <button autofocus data-action="modal#close" class="px-2.5 py-1 bg-blue-500 text-white text-sm rounded">Close</button>
+    </dialog>
+  
+      <div class="ml-2 font-bold" data-action="click->modal#open" ><%= blob.filename %></div>
     </div>
   </td>
 

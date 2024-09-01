@@ -2,7 +2,9 @@ class MediaLibraryController < ApplicationController
   def index
     @search = params[:search]
 
-    @blobs = ActiveStorage::Blob.search_by_filename(@search).order(created_at: :desc).joins(:attachments).where(attachments: { user_id: Current.user.id })
+    @blobs = ActiveStorage::Blob.joins(:attachments).where(attachments: { user_id: Current.user.id })
+      .search_by_filename(@search)
+      .order(created_at: :desc)
 
     ActiveStorage::Current.url_options = { host: "localhost", port: 3000 }
 
@@ -12,7 +14,7 @@ class MediaLibraryController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: @blobs.as_json(only: %i[id filename content_type byte_size created_at], methods: [:url, :signed_id]) }
+      format.json { render json: @blobs.as_json(only: %i[id filename content_type byte_size created_at], methods: [ :url, :signed_id ]) }
     end
   end
 

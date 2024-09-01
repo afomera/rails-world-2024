@@ -11,4 +11,14 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   else
     driven_by :selenium, using: :headless_chrome, screen_size: [ 1400, 1400 ]
   end
+
+  def login_as(user)
+    visit new_session_url
+    fill_in "Email", with: user.email
+    fill_in "Password", with: "password"
+
+    within "main#main" do
+      click_on "Log in", match: :smart
+    end
+  end
 end

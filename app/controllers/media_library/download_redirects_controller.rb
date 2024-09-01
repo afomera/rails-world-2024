@@ -19,7 +19,7 @@ class MediaLibrary::DownloadRedirectsController < ApplicationController
     URI::HTTPS.build(
       host: "embed.wistia.com",
       path: download_path,
-      query: {disposition: :attachment}.to_query
+      query: { disposition: :attachment }.to_query
     ).to_s
   end
 

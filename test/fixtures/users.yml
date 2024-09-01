@@ -1,15 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  email: MyString
-  confirmed: MyString
-  password_digest: MyString
-  timezone: MyString
+  name: User One
+  email: one@example.com
+  password_digest: <%= BCrypt::Password.create('password') %>
+  timezone: Eastern Time (US & Canada)
 
 two:
-  name: MyString
-  email: MyString
-  confirmed: MyString
-  password_digest: MyString
-  timezone: MyString
+  name: User Two
+  email: two@example.com
+  password_digest: <%= BCrypt::Password.create('password') %>
+  timezone: Eastern Time (US & Canada)

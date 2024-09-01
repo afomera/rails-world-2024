@@ -1,6 +1,10 @@
 # We're purposefully overriding has_one_attached to allow us to pass additional providers to the uploader.
 # The Uploader front end sends back starts with "pexels:" which comes from choosing an Pexels image in our uploader
 # Alternatively, the Uploader front end sends back starts with "wistia:" which comes from uploading a Wistia video in the _form.html.erb
+
+# has_one_attached :logo, providers: [:pexels, :media_library]
+# has_one_attached :video, providers: [:wistia]
+
 require "open-uri"
 
 module ActiveStorage::Providers
@@ -8,13 +12,10 @@ module ActiveStorage::Providers
 
   @@providers = {}
 
-  # has_one_attached :logo, providers: [:pexels, :media_library]
-  # has_one_attached :video, providers: [:wistia]
-
   class_methods do
     def has_one_attached(name, dependent: :purge_later, service: nil, strict_loading: false, **options)
       if options[:providers].present?
-        add_hooks(name)
+        add_provider_hooks(name)
         @@providers[self.name] = @@providers.fetch(self.name, {})
         @@providers[self.name][name.to_sym] = Array.wrap(options[:providers])
       end
@@ -22,7 +23,11 @@ module ActiveStorage::Providers
       super(name, dependent: dependent, service: service, strict_loading: strict_loading)
     end
 
-    def add_hooks(name)
+    def providers_for(name)
+      @@providers.fetch(base_class.to_s, {}).fetch(name.to_sym, [])
+    end
+
+    def add_provider_hooks(name)
       define_method(:"#{name}=") do |value|
         if self.class.providers_for(name) && value.is_a?(String) && value.start_with?("pexels:")
           super(create_pexels_blob(value))
@@ -33,18 +38,16 @@ module ActiveStorage::Providers
         end
       end
     end
-
-    def providers_for(name)
-      @@providers.fetch(base_class.to_s, {}).fetch(name.to_sym, [])
-    end
   end
 
   private
 
   def create_pexels_blob(value)
+    # pexels:https://www.pexels.com/photo/12345
     url = value.split("pexels:").last
 
     # Download the image from Pexels
+    # TODO: Sanitize the URL, check for redirects, etc.
     filename = File.basename(URI.parse(url).path)
     file = OpenURI.open_uri(url)
     content_type = Marcel::MimeType.for(file.path)
